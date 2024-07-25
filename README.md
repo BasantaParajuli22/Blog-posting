@@ -17,6 +17,7 @@ Delete Comments: Users can delete their own comments.
 
 ### Upcoming Features
 Edit Posts: Users will soon be able to edit their existing posts to keep content up-to-date.
+Admin Feature
 
 ### Technology Stack
 Backend: PHP
