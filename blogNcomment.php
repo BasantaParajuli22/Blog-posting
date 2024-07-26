@@ -39,7 +39,7 @@ if($result->num_rows>0){
 </head>
 <body>
     <h1>Blog Posts</h1>
-     <form action="createblog.php">
+     <form action="blogform.php">
         <!-- send username in url line 11 in home  -->
         <input type="hidden" name="username" value="<?php echo htmlspecialchars($username); ?>">
         <button type="submit">Create new Post</button>

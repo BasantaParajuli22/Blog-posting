@@ -6,6 +6,7 @@ if(isset($_SESSION['username']) ){
      $username  = $_SESSION['username'];
 }
 
+
 $conn = new mysqli('localhost',"root","",'basanta_db');
 if($conn->connect_error){
     die("connection failed". $conn->connect_error);
@@ -20,6 +21,7 @@ if($result->num_rows>0){
     $fetchedData = array();
     echo"no blog found";
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +34,7 @@ if($result->num_rows>0){
     <h2><?php echo "User::  " . $_SESSION['username']; ?> </h2>
 
     <?php if(!isset($_SESSION['username'])){ echo " <p style = 'color:red;'> Please login to create post</p>"; }?>
-     <form action="createblog.php">
+     <form action="blogform.php">
         <!-- send username in url line 11 in home  -->
         <input type="hidden" name="username" >
         <button type="submit">Create new Post</button>
@@ -50,16 +52,20 @@ if($result->num_rows>0){
         </tr>
     <?php
         foreach ($fetched_data as $data) {
+             
     ?>
     <tr>   
         <form action="view_mode.php" method="post">      
-        <td><?php echo $data['id']; $form_id = $data['id']; ?></td>
+        <td><?php echo $data['id']; $form_id = $data['id'];?></td>
+        <?php echo $_SESSION['view'] = $form_id ;?>
         <input type="hidden" name="id" value="<?php echo htmlspecialchars($data['id']); ?>">
         <td><?php echo $data['username']; ?></td>
         <td><?php echo $data['title']; ?></td>
         <td><?php echo $data['content']; ?></td>
-                <!-- no priviliges needed to view the specific content-->
-        <td> <button type="submit" name="view" value="<?php echo htmlspecialchars($data['id']);  ?>">View</button></td>
+
+
+            <!-- no priviliges needed to view the specific content-->
+        <td> <button type="submit" name="view">View</button></td>
         </form>
         
                 <!-- priviliges needed to edit  -->

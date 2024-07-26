@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         $_SESSION['delete_message'] = "You cannot delete others' Comments.";
     }
 
-    header('Location: display.php');
+    header('Location: view_mode.php');
     exit();
 }
 $conn->close();

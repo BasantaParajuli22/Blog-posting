@@ -7,21 +7,21 @@ if(!isset($_SESSION['username'])) {
      <p style = 'color:red;'> Please Login to add comment</p> <button ><a href='login.php'>Login</a></button> <br><br> "; 
     echo "no username found";
     }
- 
-//i couldnot redirect the user to view_mode.php after adding comment so
-// if(isset($_SESSION['username'])){
-//     $username  = $_SESSION['username'];
-// }
-// if(isset($_SESSION['Blog_id'])){
-//     $username  = $_SESSION['Blog_id'];
-// }
+    
+    $username = $_SESSION['username'];
+    echo "Username: $username<br>";
 
 //only show tables if view button is pressed in display.php
-if($_SERVER['REQUEST_METHOD']=="POST"){
-    if (isset($_POST['view'])) {
-        $Blog_id = $_POST['view'];
+if(($_SERVER['REQUEST_METHOD']=="POST") || (isset($_SESSION['view']))){
+    if(isset($_POST['id'])){
+        $Blog_id = $_POST['id'];
         echo "Blog ID: " . $Blog_id . "<br> ";
-        
+        $_SESSION['view'] = $Blog_id;
+    }
+        $view = $_SESSION['view'];
+        echo "$view";
+  
+       
     //for displaying blog post   
     $conn = new mysqli('localhost',"root","",'basanta_db');
     if($conn->connect_error){
@@ -30,7 +30,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 
     $sql ="SELECT * FROM post_table where id = ? ";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s",$Blog_id);
+    $stmt->bind_param("i",$Blog_id);
     $stmt->execute();
 
     $stmt->bind_result($db_id,$db_content,$db_title,$db_username);
@@ -47,7 +47,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     // to display comments
     $sql2 ="SELECT * FROM comment_table where comment_to = ? ";
     $stmt2 = $conn->prepare($sql2);
-    $stmt2->bind_param("s",$Blog_id);//blog_id is same as comment_to id
+    $stmt2->bind_param("i",$Blog_id);//blog_id is same as comment_to id
     $stmt2->execute();
 
     $stmt->bind_result($comment_id,$comment_username,$comment_content,$comment_to);
@@ -61,11 +61,11 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         echo"no blog found";
     }
 
-    } 
-    else{
+} 
+else{
         echo "no request found";
-    }
 }
+
 
 ?>
 
@@ -102,9 +102,9 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         }
         ?>
     </table><br><hr>
-    <h3>Comment Section</h3>
+    <h3>To add comment</h3>
     
-    <form action="comment.php" method="post">
+    <form action="create_comment.php" method="post">
         <textarea name="content" cols="50" rows="5" >test </textarea>
         <!-- always use echo to send data  -->
         <input type="hidden" name ="Blogid" value="<?php echo htmlspecialchars($Blog_id); ?>">
@@ -115,7 +115,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
 <br>
 <br>
 <!-- for comments -->
-<h3>Other Users Comments </h3>
+<h3>Comment Section::: </h3>
  <table border="1">
         <th>Comment id</th>
         <th>Username</th>
