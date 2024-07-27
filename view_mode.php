@@ -11,7 +11,11 @@ if(!isset($_SESSION['username'])) {
     $username = $_SESSION['username'];
     echo "Username: $username<br>";
 
-//only show tables if view button is pressed in display.php
+if(isset($_SESSION['view'])) {//setting the session if the page refresh
+    $Blog_id = $_SESSION['view'];
+}
+
+//table will display if request made or if refresh
 if(($_SERVER['REQUEST_METHOD']=="POST") || (isset($_SESSION['view']))){
     if(isset($_POST['id'])){
         $Blog_id = $_POST['id'];
@@ -19,7 +23,7 @@ if(($_SERVER['REQUEST_METHOD']=="POST") || (isset($_SESSION['view']))){
         $_SESSION['view'] = $Blog_id;
     }
         $view = $_SESSION['view'];
-        echo "$view";
+        echo "$Blog_id";
   
        
     //for displaying blog post   

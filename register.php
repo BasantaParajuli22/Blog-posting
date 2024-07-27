@@ -21,7 +21,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
     }
 
      // Check if username or email already exists
-    $sql1 ="SELECT *FROM blog_table WHERE username = ? OR email = ?";
+    $sql1 ="SELECT *FROM reg_table WHERE username = ? OR email = ?";
     $stmt1 = $conn->prepare($sql1);
     if($stmt1 === false){
         echo"prepare stmt failed  ";
@@ -37,7 +37,7 @@ if($_SERVER['REQUEST_METHOD']=="POST"){
         $stmt1->close();
     }else{
         //ifnot insert data into table
-        $sql = "INSERT INTO blog_table (username,email,password) VALUES (?,?,?)";
+        $sql = "INSERT INTO reg_table (username,email,password) VALUES (?,?,?)";
         $stmt = $conn->prepare($sql);
         if ($stmt === false) {
             die("Prepare statement failed: " . $conn->connect_error);

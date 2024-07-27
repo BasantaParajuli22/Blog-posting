@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password']; 
 
-    $sql ="SELECT username, password FROM blog_table WHERE username = ?";
+    $sql ="SELECT username, password FROM reg_table WHERE username = ?";
     $stmt = $conn->prepare($sql);
     if($stmt === false){
         echo "prepare stmt failed " . htmlspecialchars($conn->error) ;
